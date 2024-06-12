@@ -15,14 +15,16 @@ class ChangePasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('password', PasswordType::class, [
+            ->add('old_password', PasswordType::class, [
                 'label' => 'Votre mot de passe actuel',
+                'mapped' => false,
                 'attr' => [
                     'placeholder' => 'Veuillez saisir votre mot de passe actuel'
                 ]
             ])
             ->add('new_password', RepeatedType::class, [
                 'type' => PasswordType::class,
+                'mapped' => false,
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identique',
                 'label' => 'Votre nouveau mot de passe',
                 'required' => true,
@@ -40,7 +42,7 @@ class ChangePasswordType extends AbstractType
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => "S'inscrire",
+                'label' => "Modifier mon mot de passe",
                 'attr' => [
                     'class' => 'btn btn-primary'  // Classe CSS pour styliser le bouton
                 ]
