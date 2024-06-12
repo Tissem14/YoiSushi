@@ -1,13 +1,37 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1; /* Prend tout l'espace disponible */
+}
+
 .navbar-item-custom, .navbar-item-custom a {
     color: #ffff
 }
 
-.footer-custom, .footer-custom {
-    color: #ffff;
+
+.footer-custom {
+    color: #fff;
     text-align: center;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
     background-color: #292e33;
-    padding-top: 25px;
+    padding: 25px 0;
+    width: 100%;
+}
+
+
+.card-img-top {
+    width: 100%;
+    height: 200px; /* Hauteur fixe pour uniformiser les images */
+    object-fit: cover; /* Permet de couvrir la zone sans déformation */
+}
+
+.product-container {
+    margin-bottom: 150px;
 }
