@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte - Yoi Sushi{% endblock %}
+
+{% block content %}
+    <h1>Mon compte</h1>
+    Bienvenue {{app.user.firstname}}, dans votre compte. </br> Dans cet espace vous pouvez retrouver vos commandes passées et gérer vos données personnelles.
+    <hr>
+    - <a href="{{ path('account_password') }}"> Modifier mon Mot de Passe </a></br>
+    - <a href="{{ path('account_phone') }}"> Modifier mon Numéro de Téléphone </a></br>
+    - Modifier mes adresses </br>
+    - Voir mes commandes </br>
+{% endblock %}

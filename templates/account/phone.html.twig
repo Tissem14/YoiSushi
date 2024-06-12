@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon numéro de téléphone - Yoi Sushi{% endblock %}
+
+{% block content %}
+    <h1>Modifier mon numéro de téléphone</h1>
+    <a href="{{ path('account') }}"> Retourner à mon compte </a></br>
+
+    {{ form(form) }}
+    
+{% endblock %}
