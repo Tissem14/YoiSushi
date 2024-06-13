@@ -23,7 +23,7 @@
                                     <p class="card-text">{{ (product.price / 100)|number_format(2,',','.') }}€</p>
                                 </div>
                                 <div>
-                                    <a href="#" class="btn btn-primary mt-auto">Ajouter au panier</a>
+                                    <a href="{{ path('add_to_cart', { 'id' : product.id }) }}" class="btn btn-primary mt-auto">Ajouter au panier</a>
                                 </div>
                             </div>
                         </div>

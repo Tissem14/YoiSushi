@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes adresses - Yoi Sushi{% endblock %}
+
+{% block content %}
+    <a href="" class="btn btn-info btn-sn float-right">Ajouter une adresse</a>
+    <h1>Mes adresses</h1>
+    Dans cet espace vous pouvez gérer toutes vos adresses.
+    <a href="{{ path('account') }}">Retour</a>
+    <hr>
+    {% if app.user.addresses|length %}
+
+{% endblock %}
