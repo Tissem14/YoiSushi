@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 class Address
@@ -14,7 +15,7 @@ class Address
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'addresses')]
-    private ?User $User = null;
+    private ?User $user = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
@@ -25,14 +26,11 @@ class Address
     #[ORM\Column(length: 255)]
     private ?string $lastname = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $company = null;
 
     #[ORM\Column(length: 255)]
     private ?string $address = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $postal = null;
 
     #[ORM\Column(length: 255)]
     private ?string $city = null;
@@ -44,12 +42,12 @@ class Address
 
     public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function setUser(?User $User): static
+    public function setUser(?User $user): self
     {
-        $this->User = $User;
+        $this->user = $user;
 
         return $this;
     }
@@ -59,7 +57,7 @@ class Address
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -71,7 +69,7 @@ class Address
         return $this->firstname;
     }
 
-    public function setFirstname(string $firstname): static
+    public function setFirstname(string $firstname): self
     {
         $this->firstname = $firstname;
 
@@ -83,7 +81,7 @@ class Address
         return $this->lastname;
     }
 
-    public function setLastname(string $lastname): static
+    public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
 
@@ -95,7 +93,7 @@ class Address
         return $this->company;
     }
 
-    public function setCompany(string $company): static
+    public function setCompany(?string $company): self
     {
         $this->company = $company;
 
@@ -107,31 +105,22 @@ class Address
         return $this->address;
     }
 
-    public function setAddress(string $address): static
+    public function setAddress(string $address): self
     {
         $this->address = $address;
 
         return $this;
     }
 
-    public function getPostal(): ?string
-    {
-        return $this->postal;
-    }
-
-    public function setPostal(string $postal): static
-    {
-        $this->postal = $postal;
-
-        return $this;
-    }
-
+    /**
+     * @Assert\Choice(choices={"Perpignan, 66000", "Claira, 66530", "Rivesaltes, 66600", "Saint-Laurent-de-la-Salanque, 66250", "Torreilles, 66440"}, message="Choisissez une ville valide parmi les options disponibles.")
+     */
     public function getCity(): ?string
     {
         return $this->city;
     }
 
-    public function setCity(string $city): static
+    public function setCity(string $city): self
     {
         $this->city = $city;
 
