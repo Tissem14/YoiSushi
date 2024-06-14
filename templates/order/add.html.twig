@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement de ma commande - Yoi Sushi{% endblock %}
+
+{% block content %}
+    <h2>Récapitulatif votre commande</h2>
+    <p>Vérifiez vos informations avant de payer votre commande </p>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <strong>Mon adresse de livraison</strong></br>
+            {{ delivery|raw }}
+        </div>
+
+        <div class="col-md-6">
+            <b>Votre commande</b>
+            {% set total = 0 %}
+            {% for product in cart %}
+                <div class="row">
+                    <div class="col-2">
+                        <img src="/uploads/images/{{ product.product.illustration }}" alt="{{ product.product.name }}" height="75px" width="75px">
+                    </div>
+                    <div class="col-8">
+                        {{ product.product.name }} <br>
+                        <small>{{ product.product.description }}</small> <br>
+                        <small>x{{ product.quantity }}</small>
+                    </div>
+                    <div class="col-2"> {{ ((product.product.price * product.quantity) / 100)|number_format(2,',','.') }} €</div>
+                </div>
+            {% set total = total + (product.product.price * product.quantity) %}
+            {% endfor %}
+        
+            <hr>
+            <strong> Total :</strong> {{ (total / 100)|number_format(2,',','.') }} €
+
+
+        <a href="" class="btn btn-success btn-block mb-3">Payer {{ (total / 100)|number_format(2,',','.') }} €</a>
+        </div>
+    </div>
+{% endblock %}
