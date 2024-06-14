@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valider ma commande - Yoi Sushi{% endblock %}
+
+{% block content %}
+    <h2>Finaliser votre commande</h2>
+    <p>Choisissez votre adresse de livraison et vérifier votre commande avant de poursuivre.</p>
+    <hr>
+    <div class="row">
+        <div class="col-md-6">
+            <b>Choisir mon adresse de livraison</b>
+            {{ form(form) }}
+        </div>
+        <div class="col-md-6">
+            <b>Récap de ma commande</b>
+            <b>Bouton pour payer</b>
+        </div>
+    </div>
+{% endblock %}
