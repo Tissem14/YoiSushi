@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block javascript %} 
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock %} 
+
 {% block title %}Paiement de ma commande - Yoi Sushi{% endblock %}
 
 {% block content %}
@@ -34,7 +38,41 @@
             <strong> Total :</strong> {{ (total / 100)|number_format(2,',','.') }} €
 
 
-        <a href="" class="btn btn-success btn-block mb-3">Payer {{ (total / 100)|number_format(2,',','.') }} €</a>
+        <a href="" class="btn btn-success btn-block mb-3" id="checkout-button">Payer {{ (total / 100)|number_format(2,',','.') }} €</a>
         </div>
     </div>
+{% endblock %}
+
+
+{% block script %}
+<script type="text/javascript">
+var stripe = Stripe("pk_test_51M9VdzKUFOQ5BxyPfHAH5BEB71mL078rNSO5O7FoGEjStQHAgniBQy9dAR5vhqBWg0awLAFvfzQuRTSgYxkkNE7Y00paixY9Ic");
+var checkoutButton = document.getElementById("checkout-button");
+
+checkoutButton.addEventListener("click", function() {
+    fetch("/commande/create-session", {
+        method: "POST",
+    })
+    .then(function(response) {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(function(session) {
+        return stripe.redirectToCheckout({ sessionId: session.id });
+    })
+    .then(function(result) {
+        if (result.error) {
+            alert(result.error.message);
+        }
+    })
+    .catch(function(error) {
+        console.error("Error:", error);
+        alert('An error occurred: ' + error.message);
+    });
+});
+</script>
+
+
 {% endblock %}

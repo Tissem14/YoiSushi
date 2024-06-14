@@ -94,6 +94,7 @@ class OrderController extends AbstractController
 
             $this->entityManager->persist($order);
 
+
             // Enregistrer mes produits OrderDetails()
             foreach ($cart->getFull() as $product) {
                 $orderDetails = new OrderDetails();
@@ -102,7 +103,6 @@ class OrderController extends AbstractController
                 $orderDetails->setQuantity($product['quantity']);
                 $orderDetails->setPrice($product['product']->getPrice());
                 $orderDetails->setTotal($product['product']->getPrice() * $product['quantity']);
-
                 $this->entityManager->persist($orderDetails); // Persister chaque OrderDetails
             }
 
