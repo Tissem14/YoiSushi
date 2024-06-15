@@ -26,6 +26,7 @@ class AccountAddressController extends AbstractController
         return $this->render('account/address.html.twig', []);
     }
 
+
     #[Route('/compte/ajouter-une-adresse', name: 'account_address_add')]
     public function add(Cart $cart, Request $request): Response
     {
@@ -35,20 +36,65 @@ class AccountAddressController extends AbstractController
 
         $form->handleRequest($request);
 
+        // Vérifier si l'utilisateur était sur la page de commande avant l'ajout d'adresse
+        $referer = $request->headers->get('referer');
+        $isInOrderPage = strpos($referer, $this->generateUrl('order')) !== false;
+
         if ($form->isSubmitted() && $form->isValid()) {
             $address->setUser($this->getUser());
             $this->entityManager->persist($address);
             $this->entityManager->flush();
-            if ($cart->get()) {
+
+            // Vérifier si le panier contient des produits
+            if ($cart->get() && $isInOrderPage) {
+                // Redirection vers la page de commande si l'utilisateur y était déjà
                 return $this->redirectToRoute('order');
             } else {
+                // Sinon, redirection vers la page des adresses
                 return $this->redirectToRoute('account_address');
             }
-            return $this->redirectToRoute('account');
         }
 
-        return $this->render('account/address_add.html.twig', [
+        return $this->render('account/address_form.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+
+
+    #[Route('/compte/modifier-une-adresse/{id}', name: 'account_address_edit')]
+    public function edit(Request $request, $id): Response
+    {
+        $address = $this->entityManager->getRepository(Address::class)->findOneById($id);
+
+        if (!$address) {
+            return $this->redirectToRoute('account_address');
+        }
+
+        $form = $this->createForm(AddressType::class, $address);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+            return $this->redirectToRoute('account_address');
+        }
+
+        return $this->render('account/address_form.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/compte/supprimer-une-adresse/{id}', name: 'account_address_delete')]
+    public function delete($id): Response
+    {
+        $address = $this->entityManager->getRepository(Address::class)->findOneById($id);
+
+        if ($address && $address->getUser() == $this->getUser()) {
+            $this->entityManager->remove($address);
+            $this->entityManager->flush();
+        }
+
+        return $this->redirectToRoute('account_address');
     }
 }
